@@ -41,3 +41,25 @@ def create_ui(app):
     app.error_label = ttk.Label(input_frame, text="", foreground="red", style="White.TLabel")
     app.error_label.pack(anchor=tk.W, padx=10, pady=2)
 
+        # Current State Section
+    state_frame = ttk.Frame(app.main_frame, style="White.TFrame")
+    state_frame.pack(fill=tk.X, pady=10, padx=5)
+    
+    state_header = ttk.Frame(state_frame, style="White.TFrame")
+    state_header.pack(fill=tk.X, padx=10, pady=5)
+    
+    state_title = ttk.Label(state_header, text="Current State", 
+                          font=("Arial", 12, "bold"), style="White.TLabel")
+    state_title.pack(side=tk.LEFT)
+    
+    app.state_info_frame = ttk.Frame(state_header, style="White.TFrame")
+    app.state_info_frame.pack(side=tk.RIGHT)
+    
+    app.heuristic_label = ttk.Label(app.state_info_frame, text="h = 0", 
+                                   font=("Arial", 12, "bold"), style="White.TLabel")
+    app.heuristic_label.pack(side=tk.LEFT, padx=5)
+    
+    app.status_label = ttk.Label(app.state_info_frame, text="", style="White.TLabel")
+    app.status_label.pack(side=tk.LEFT, padx=5)
+
+
