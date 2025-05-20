@@ -124,4 +124,48 @@ class FourQueensSolver:
         )
         update_solution_path(self.path_frame_inner, self.solution_path, self.N)
       
-      
+    def reset_board(self):
+        self.user_input_var.set("0,1,2,3")
+        self.initialize_board()
+
+    def toggle_auto_solve(self):
+        if self.solved or self.no_solution:
+            return
+        self.auto_solve_mode = not self.auto_solve_mode
+        self.auto_solve_btn.config(text="Stop Auto-Solve" if self.auto_solve_mode else "Auto-Solve")
+        if self.auto_solve_mode:
+            threading.Thread(target=self.auto_solve, daemon=True).start()
+
+    def auto_solve(self):
+        while self.auto_solve_mode and not self.solved and not self.no_solution:
+            best_state, best_h = self.get_best_neighbor(self.queens_config)
+            if best_h < self.current_heuristic:
+                for move in self.possible_moves:
+                    if move["config"] == best_state:
+                        self.root.after(0, lambda m=move: self.handle_move_selection(m))
+                        break
+            elif self.current_heuristic == 0:
+                self.root.after(0, self.set_solved)
+                break
+            else:
+                self.root.after(0, self.set_no_solution)
+                break
+            time.sleep(0.8)
+
+    def set_solved(self):
+        self.solved = True
+        self.auto_solve_mode = False
+        self.auto_solve_btn.config(text="Auto-Solve")
+        self.status_label.config(text="Solution Found!", background="#dcfce7", foreground="#166534")
+
+    def set_no_solution(self):
+        self.no_solution = True
+        self.auto_solve_mode = False
+        self.auto_solve_btn.config(text="Auto-Solve")
+        self.status_label.config(text="Local Minimum (No Solution)", background="#fef9c3", foreground="#854d0e")
+
+    def on_moves_container_configure(self, event):
+        self.moves_canvas.configure(scrollregion=self.moves_canvas.bbox("all"))
+
+    def on_moves_canvas_configure(self, event):
+        self.moves_canvas.itemconfig(self.moves_canvas_window, width=event.width)
