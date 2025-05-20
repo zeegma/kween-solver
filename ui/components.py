@@ -80,6 +80,47 @@ def create_ui(app):
     app.auto_solve_btn = ttk.Button(state_frame, text="Auto-Solve", command=app.toggle_auto_solve)
     app.auto_solve_btn.pack(padx=10, pady=5)
 
+    # Possible Moves Section with Scrolling
+    moves_frame = ttk.Frame(app.main_frame, style="White.TFrame")
+    moves_frame.pack(fill=tk.BOTH, expand=True, pady=10, padx=5)
+    
+    moves_title = ttk.Label(moves_frame, text="Possible Moves", 
+                          font=("Arial", 12, "bold"), style="White.TLabel")
+    moves_title.pack(anchor=tk.W, padx=10, pady=5)
+    
+    # Create a canvas with scrollbar for possible moves
+    moves_canvas_frame = ttk.Frame(moves_frame, style="White.TFrame")
+    moves_canvas_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
+    
+    # Vertical scrollbar
+    moves_vscrollbar = ttk.Scrollbar(moves_canvas_frame, orient=tk.VERTICAL)
+    moves_vscrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+    
+    # Horizontal scrollbar
+    moves_hscrollbar = ttk.Scrollbar(moves_canvas_frame, orient=tk.HORIZONTAL)
+    moves_hscrollbar.pack(side=tk.BOTTOM, fill=tk.X)
+    
+    # Canvas for moves
+    app.moves_canvas = tk.Canvas(moves_canvas_frame, bg="white", 
+                                yscrollcommand=moves_vscrollbar.set,
+                                xscrollcommand=moves_hscrollbar.set)
+    app.moves_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+    
+    # Configure scrollbars
+    moves_vscrollbar.config(command=app.moves_canvas.yview)
+    moves_hscrollbar.config(command=app.moves_canvas.xview)
+    
+    # Create a frame inside the canvas to hold all move frames
+    app.moves_container = ttk.Frame(app.moves_canvas, style="White.TFrame")
+    app.moves_canvas_window = app.moves_canvas.create_window((0, 0), window=app.moves_container, anchor=tk.NW)
+    
+    # Configure the moves container to update the scrollregion when its size changes
+    app.moves_container.bind("<Configure>", app.on_moves_container_configure)
+    app.moves_canvas.bind("<Configure>", app.on_moves_canvas_configure)
+
+    
+
+
 
 
 
