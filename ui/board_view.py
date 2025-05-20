@@ -22,3 +22,19 @@ def create_board(parent, N=4, cell_size=50):
         cells.append(row_cells)
     
     return board_frame, cells
+
+def update_board(cells, queens_config):
+    
+    N = len(queens_config)
+    
+    # Clear all queen symbols
+    for row in range(N):
+        for col in range(N):
+            for widget in cells[row][col].winfo_children():
+                widget.destroy()
+    
+    # Place queens according to current configuration
+    for col, row in enumerate(queens_config):
+        queen_label = tk.Label(cells[row][col], text="♛", font=("Arial", 20),
+                            fg="black")  
+        queen_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
