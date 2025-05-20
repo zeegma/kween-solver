@@ -141,12 +141,3 @@ def create_ui(app):
     app.path_canvas.create_window((0, 0), window=app.path_frame_inner, anchor=tk.NW)
     app.path_frame_inner.bind("<Configure>", lambda e: app.path_canvas.configure(
         scrollregion=app.path_canvas.bbox("all")))
-    
-    
-
-
-
-
-
-
-
