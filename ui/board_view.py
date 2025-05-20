@@ -169,3 +169,29 @@ def update_solution_path(container, solution_path, N=4):
                     queen_label = tk.Label(cell, text="♛", font=("Arial", 6),
                                         fg="black" if (mini_row + mini_col) % 2 == 0 else "white")
                     queen_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+def create_mini_board(parent, config, background_color, N=4, cell_size=15, highlight_col=None, highlight_row=None):
+    
+    mini_board = tk.Frame(parent, bg=background_color)
+    mini_board.pack(padx=5, pady=2)
+    
+    for row in range(N):
+        for col in range(N):
+            cell_color = "#fcd34d" if (row + col) % 2 == 0 else "#92400e"  
+            cell = tk.Frame(mini_board, width=cell_size, height=cell_size, bg=cell_color)
+            cell.grid(row=row, column=col, padx=0, pady=0)
+            cell.grid_propagate(False)
+            
+            # Highlight the cell if specified
+            if col == highlight_col and row == highlight_row:
+                cell.config(highlightbackground="blue", highlightthickness=2)
+            
+            # Add queen symbol if present at this position
+            if config[col] == row:
+                # Choose queen color for contrast
+                queen_color = "black" if (row + col) % 2 == 0 else "white"
+                queen_label = tk.Label(cell, text="♛", font=("Arial", int(cell_size/2)),
+                                    fg=queen_color, bg=cell_color)
+                queen_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+    
+    return mini_board
