@@ -96,3 +96,28 @@ class QueensSolver:
         moves.sort(key=lambda x: x["heuristic"])
         
         return moves
+    
+    def get_best_neighbor(self, state):
+        """Find the best neighboring state according to hill climbing"""
+        current_h = self.calculate_heuristic(state)
+        best_state = state.copy()
+        best_h = current_h
+        
+        # Check all possible moves (neighbors)
+        for col in range(self.N):
+            for row in range(self.N):
+                # Skip current position
+                if row == state[col]:
+                    continue
+                
+                # Try this neighbor
+                new_state = state.copy()
+                new_state[col] = row
+                new_h = self.calculate_heuristic(new_state)
+                
+                # If it's better, update best
+                if new_h < best_h:
+                    best_h = new_h
+                    best_state = new_state.copy()
+        
+        return best_state, best_h
