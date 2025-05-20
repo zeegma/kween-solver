@@ -65,3 +65,34 @@ class QueensSolver:
         
         # Divide by 2 because each attack is counted twice (once from each queen)
         return int(attacking / 2)
+    
+    def generate_possible_moves(self, state):
+        """Generate all possible next states and evaluate them"""
+        moves = []
+        current_h = self.calculate_heuristic(state)
+        
+        # For each column, try placing the queen in each row
+        for col in range(self.N):
+            for row in range(self.N):
+                # Skip the current position
+                if row == state[col]:
+                    continue
+                
+                # Create new state by moving queen in this column
+                new_state = state.copy()
+                new_state[col] = row
+                
+                # Calculate heuristic for the new state
+                new_h = self.calculate_heuristic(new_state)
+                
+                moves.append({
+                    "config": new_state,
+                    "heuristic": new_h,
+                    "changedCol": col,
+                    "newRow": row
+                })
+        
+        # Sort moves by heuristic (lowest first)
+        moves.sort(key=lambda x: x["heuristic"])
+        
+        return moves
