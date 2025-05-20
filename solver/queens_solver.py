@@ -67,7 +67,7 @@ class QueensSolver:
         return int(attacking / 2)
     
     def generate_possible_moves(self, state):
-        """Generate all possible next states and evaluate them"""
+        # Generate all possible next states and evaluate them
         moves = []
         current_h = self.calculate_heuristic(state)
         
@@ -98,7 +98,7 @@ class QueensSolver:
         return moves
     
     def get_best_neighbor(self, state):
-        """Find the best neighboring state according to hill climbing"""
+        # Find the best neighboring state according to hill climbing
         current_h = self.calculate_heuristic(state)
         best_state = state.copy()
         best_h = current_h
