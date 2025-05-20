@@ -75,6 +75,11 @@ def create_ui(app):
             cell.grid_propagate(False)  # Force the frame to be exactly the size we want
             row_cells.append(cell)
         app.cells.append(row_cells)
+    
+    # Auto-solve button
+    app.auto_solve_btn = ttk.Button(state_frame, text="Auto-Solve", command=app.toggle_auto_solve)
+    app.auto_solve_btn.pack(padx=10, pady=5)
+
 
 
 
