@@ -44,3 +44,15 @@ class FourQueensSolver:
         self.style.configure("TLabel", background="#f9fafb")
         self.style.configure("White.TLabel", background="white")
         self.style.configure("TButton", padding=6)
+
+    def calculate_heuristic(self, state):
+        return self.solver.calculate_heuristic(state)
+
+    def generate_board_from_state(self, state):
+        return generate_board_from_state(state, self.N)
+
+    def generate_possible_moves(self, state):
+        return self.solver.generate_possible_moves(state)
+
+    def get_best_neighbor(self, state):
+        return self.solver.get_best_neighbor(state)
