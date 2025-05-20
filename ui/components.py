@@ -118,7 +118,33 @@ def create_ui(app):
     app.moves_container.bind("<Configure>", app.on_moves_container_configure)
     app.moves_canvas.bind("<Configure>", app.on_moves_canvas_configure)
 
+    # Solution Path Section
+    path_frame = ttk.Frame(app.main_frame, style="White.TFrame")
+    path_frame.pack(fill=tk.X, pady=10, padx=5)
     
+    path_title = ttk.Label(path_frame, text="Solution Path", 
+                         font=("Arial", 12, "bold"), style="White.TLabel")
+    path_title.pack(anchor=tk.W, padx=10, pady=5)
+    
+    # Create a canvas with scrollbar for the solution path
+    path_canvas_frame = ttk.Frame(path_frame, style="White.TFrame")
+    path_canvas_frame.pack(fill=tk.X, padx=10, pady=5)
+    
+    app.path_canvas = tk.Canvas(path_canvas_frame, height=150, bg="white")
+    app.path_canvas.pack(side=tk.LEFT, fill=tk.X, expand=True)
+    
+    path_scrollbar = ttk.Scrollbar(path_canvas_frame, orient=tk.HORIZONTAL, command=app.path_canvas.xview)
+    path_scrollbar.pack(side=tk.BOTTOM, fill=tk.X)
+    app.path_canvas.configure(xscrollcommand=path_scrollbar.set)
+    
+    app.path_frame_inner = ttk.Frame(app.path_canvas, style="White.TFrame")
+    app.path_canvas.create_window((0, 0), window=app.path_frame_inner, anchor=tk.NW)
+    app.path_frame_inner.bind("<Configure>", lambda e: app.path_canvas.configure(
+        scrollregion=app.path_canvas.bbox("all")))
+    
+    
+
+
 
 
 
