@@ -95,3 +95,33 @@ class FourQueensSolver:
             self.error_label.config(
                 text=f"Invalid input format. Use 4 comma-separated values 0-{self.N - 1}. Error: {str(e)}"
             )
+      
+    def handle_move_selection(self, move):
+        self.queens_config = move["config"]
+        self.current_heuristic = move["heuristic"]
+        self.board = self.generate_board_from_state(move["config"])
+
+        self.heuristic_label.config(text=f"h = {self.current_heuristic}")
+        if self.current_heuristic == 0:
+            self.status_label.config(text="Solution Found!", background="#dcfce7", foreground="#166534")
+            self.solved = True
+            self.auto_solve_mode = False
+            self.auto_solve_btn.config(text="Auto-Solve")
+        else:
+            self.status_label.config(text="", background="white")
+            self.solved = False
+
+        self.solution_path.append({"config": move["config"].copy(), "heuristic": self.current_heuristic})
+        self.possible_moves = self.generate_possible_moves(move["config"])
+
+        update_board(self.cells, self.queens_config)
+        update_possible_moves(
+            self.moves_container,
+            self.possible_moves,
+            self.current_heuristic,
+            self.N,
+            handle_move_callback=self.handle_move_selection
+        )
+        update_solution_path(self.path_frame_inner, self.solution_path, self.N)
+      
+      
