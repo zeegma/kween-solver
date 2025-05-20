@@ -2,13 +2,12 @@ import tkinter as tk
 from tkinter import ttk
 
 def create_ui(app):
-    """Create and place all UI components"""
     # Title
     title_label = ttk.Label(app.main_frame, text="4-Queens Local Search Solver", 
                            font=("Arial", 16, "bold"))
     title_label.pack(pady=10)
 
-        # User Input Section
+    # User Input Section
     input_frame = ttk.Frame(app.main_frame, style="White.TFrame")
     input_frame.pack(fill=tk.X, pady=10, padx=5)
     
@@ -41,7 +40,7 @@ def create_ui(app):
     app.error_label = ttk.Label(input_frame, text="", foreground="red", style="White.TLabel")
     app.error_label.pack(anchor=tk.W, padx=10, pady=2)
 
-        # Current State Section
+    # Current State Section
     state_frame = ttk.Frame(app.main_frame, style="White.TFrame")
     state_frame.pack(fill=tk.X, pady=10, padx=5)
     
@@ -61,5 +60,21 @@ def create_ui(app):
     
     app.status_label = ttk.Label(app.state_info_frame, text="", style="White.TLabel")
     app.status_label.pack(side=tk.LEFT, padx=5)
+
+    # Chessboard
+    app.board_frame = ttk.Frame(state_frame, style="White.TFrame")
+    app.board_frame.pack(padx=10, pady=10)
+    
+    app.cells = []
+    for row in range(4):
+        row_cells = []
+        for col in range(4):
+            cell = tk.Frame(app.board_frame, width=50, height=50, 
+                          bg="#fcd34d" if (row + col) % 2 == 0 else "#92400e")  # amber-200 or amber-800
+            cell.grid(row=row, column=col)
+            cell.grid_propagate(False)  # Force the frame to be exactly the size we want
+            row_cells.append(cell)
+        app.cells.append(row_cells)
+
 
 
